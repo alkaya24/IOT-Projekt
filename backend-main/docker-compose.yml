@@ -1,0 +1,39 @@
+version: '3'
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: iot_influxdb
+    ports:
+      - '8000:8086'
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=iot
+      - DOCKER_INFLUXDB_INIT_PASSWORD=iot_2022
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=jfhurtt7G==--_VJHgizgjfh5476-_gzif68
+      - DOCKER_INFLUXDB_INIT_ORG=iot
+      - DOCKER_INFLUXDB_INIT_BUCKET=iot-bucket
+      - AIRFLOW_WEBSERVER_HOST
+    volumes:
+      - ./data_influxdb:/var/lib/influxdb2
+      - ./config_influxdb:/etc/influxdb2
+
+  telegraf:
+    image: telegraf:1.22.4-alpine
+    container_name: iot_telegraf
+    depends_on:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: iot_grafana
+    ports:
+      - '9000:3000'
+    volumes:
+      - ./data_grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=iot
+      - GF_SECURITY_ADMIN_PASSWORD=iot_2022
+      - GF_USERS_ALLOW_SIGN_UP=false
+
