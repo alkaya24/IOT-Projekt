@@ -11,14 +11,20 @@
  ***************************/
 
 #include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "esp_event.h"
 #include "driver/gpio.h"
 #include "nvs_flash.h"
-#include "driver/adc.h"
-#include "string.h"
 #include "TheThingsNetwork.h"
 #include "esp_log.h"
+
+/* Bibliothek zum Einbinden von Funktionen, die analog eingelesene Signale in digitale umzuwandeln*/
+#include "driver/adc.h"
+
+/*Bibliothek zum Einbinden der memcpy-Funktion, um Daten in einen Speicherbereich zu kopieren und 
+danach als Byte-Payload an TTN zu übertragen.*/
+#include "string.h"
+
+/*Bibliothek zum Einbinden der DeepSleep-Funktion, um den ESP intervallweise ausschalten zu können*/
 #include "esp_sleep.h"
 
 extern "C" {
