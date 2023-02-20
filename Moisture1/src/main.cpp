@@ -136,7 +136,8 @@ u8g2_t setup_display() {
 	return (u8g2);
 }
 
-/* Die Funktion wird verwendet, um eine Nachricht auf dem monochromen Grafik-Display anzuzeigen. 
+/* Die Funktion wird verwendet, um eine Nachricht auf dem monochromen Grafik-Display anzuzeigen.
+Wir haben die Funktion ausgeschaltet um mehr Energie sparen zu können.
 */
 static void display_message(u8g2_t display, int value){
 	u8g2_DrawStr(&display, 2,15, "Feuchtigkeit\n");
@@ -179,7 +180,8 @@ void read_moisture_sendMessages(void* pvParameter, u8g2_t display)
         moisture = (int)temp;
 
         ESP_LOGI("MOISTURE", "Moisture level: %d", moisture);          
-        display_message(display, moisture);                         //berechneten Feuchtigkeitsdaten werden auf einem Display mit der Funktion
+        //display_message(display, moisture);                       //berechneten Feuchtigkeitsdaten werden auf einem Display mit der Funktion
+                                                                    //auskommentiert um Energie zu sparen
         
         transmitSensorData(1, moisture);                            //Sensor_ID und gemessener Wert wird über transmitSensorData an TTN übertragen                   
         
@@ -251,4 +253,3 @@ extern "C" void app_main(void)
         printf("Join failed. Goodbye\n");
     }
 }
-
